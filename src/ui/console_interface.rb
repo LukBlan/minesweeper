@@ -8,7 +8,9 @@ class ConsoleInterface
 
     grid.each do |row|
       row.each do |column|
-        print "#{column} "
+        value = column.mark
+
+        print "#{value} "
       end
 
       puts
