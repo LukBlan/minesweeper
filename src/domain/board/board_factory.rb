@@ -11,7 +11,50 @@ class BoardFactory
   def create_board(size, bombs_amount)
     grid = generate_empty_grid(size)
     place_bombs(grid, bombs_amount, size)
+    place_tile_values(grid)
     Board.new(grid)
+  end
+
+  def place_tile_values(grid)
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |tile, column_index|
+        unless tile.bomb
+          bombs_amount = get_bombs_amount(grid, row_index, column_index)
+
+          if bombs_amount > 0
+            tile.mark = bombs_amount.to_s
+          end
+
+        end
+      end
+    end
+  end
+
+  def get_bombs_amount(grid, row, column)
+    tiles_coordinates = get_coordinates_around_tile(row, column, grid.length)
+    tiles = tiles_coordinates.map do |coordinate|
+      row = coordinate[0]
+      column = coordinate[1]
+      grid[row][column]
+    end
+
+    tiles.count { |tile| tile.bomb }
+  end
+
+  def get_coordinates_around_tile(row, column, grid_size)
+    coordinates = []
+    start_row = row - 1
+    start_column = column - 1
+
+    (start_row...start_row + 3).each do |row_index|
+      (start_column...start_column + 3).each do |column_index|
+        if row_index >= 0 && column_index >= 0 && row_index < grid_size && column_index < grid_size
+          coordinates << [row_index, column_index]
+        end
+      end
+    end
+
+    coordinates
   end
 
   def place_bombs(grid, bombs_amount, size)

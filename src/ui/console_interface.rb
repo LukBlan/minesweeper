@@ -7,9 +7,8 @@ class ConsoleInterface
     grid = @board.grid
 
     grid.each do |row|
-      row.each do |column|
-        value = column.mark
-
+      row.each do |tile|
+        value = tile.mark
         print "#{value} "
       end
 
