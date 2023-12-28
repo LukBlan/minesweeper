@@ -1,9 +1,11 @@
 require_relative './board'
+require_relative './../tile'
 
 class BoardFactory
-  def initialize(empty_mark, bomb_mark)
+  def initialize(empty_mark, bomb_mark, flag_mark)
     @empty_mark = empty_mark
     @bomb_mark = bomb_mark
+    @flag_mark = flag_mark
   end
 
   def create_board(size, bombs_amount)
@@ -22,8 +24,8 @@ class BoardFactory
     random_row = random_number(size)
     random_column = random_number(size)
 
-    if grid[random_row][random_column] == @empty_mark
-      grid[random_row][random_column] = @bomb_mark
+    if grid[random_row][random_column].mark == @empty_mark
+      grid[random_row][random_column] = Tile.new(@bomb_mark, true)
     else
       locate_bomb(grid, size)
     end
@@ -48,7 +50,7 @@ class BoardFactory
     row = []
 
     size.times do
-      row << @empty_mark
+      row << Tile.new(@empty_mark, false)
     end
 
     row
