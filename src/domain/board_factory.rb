@@ -7,15 +7,37 @@ class BoardFactory
   end
 
   def create_board(size, bombs_amount)
-    row = generate_empty_row(size)
-    board = generate_empty_board(row, size)
-    Board.new(board)
+    grid = generate_empty_grid(size)
+    place_bombs(grid, bombs_amount, size)
+    Board.new(grid)
   end
 
-  def generate_empty_board(row, size)
+  def place_bombs(grid, bombs_amount, size)
+    bombs_amount.times do
+      locate_bomb(grid, size)
+    end
+  end
+
+  def locate_bomb(grid, size)
+    random_row = random_number(size)
+    random_column = random_number(size)
+
+    if grid[random_row][random_column] == @empty_mark
+      grid[random_row][random_column] = @bomb_mark
+    else
+      locate_bomb(grid, size)
+    end
+  end
+
+  def random_number(size)
+    (0...size).to_a.sample
+  end
+
+  def generate_empty_grid(size)
     board = []
 
     size.times do
+      row = generate_empty_row(size)
       board << row
     end
 
