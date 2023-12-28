@@ -1,4 +1,4 @@
-require_relative './ard'
+require_relative './board'
 
 class BoardFactory
   def initialize(empty_mark, bomb_mark)
