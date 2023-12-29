@@ -14,7 +14,7 @@ class BoardFactory
     grid = generate_empty_grid(size)
     place_bombs(grid, bombs_amount, size)
     place_tile_values(grid)
-    Board.new(grid, self)
+    Board.new(grid, self, bombs_amount)
   end
 
   def place_tile_values(grid)
