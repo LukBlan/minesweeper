@@ -2,6 +2,8 @@ require_relative './board'
 require_relative './../tile'
 
 class BoardFactory
+  attr_reader :empty_mark
+
   def initialize(empty_mark, bomb_mark, flag_mark)
     @empty_mark = empty_mark
     @bomb_mark = bomb_mark
@@ -12,7 +14,7 @@ class BoardFactory
     grid = generate_empty_grid(size)
     place_bombs(grid, bombs_amount, size)
     place_tile_values(grid)
-    Board.new(grid)
+    Board.new(grid, self)
   end
 
   def place_tile_values(grid)
@@ -48,7 +50,10 @@ class BoardFactory
 
     (start_row...start_row + 3).each do |row_index|
       (start_column...start_column + 3).each do |column_index|
-        if row_index >= 0 && column_index >= 0 && row_index < grid_size && column_index < grid_size
+        not_out_of_bound_index = row_index >= 0 && column_index >= 0 && row_index < grid_size && column_index < grid_size
+        index_is_not_center = row_index != row || column_index != column
+
+        if not_out_of_bound_index && index_is_not_center
           coordinates << [row_index, column_index]
         end
       end
