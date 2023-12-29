@@ -2,7 +2,7 @@
 class UserInputGetter
   def get_position
     loop do
-      puts("Enter a coordinate (row,column) (e.g 3,3)")
+      print("Enter a coordinate (row,column) (e.g 3,3): ")
       user_input = gets.chomp
 
       if valid_position?(user_input)
@@ -15,8 +15,8 @@ class UserInputGetter
 
   def valid_position?(user_input)
     begin
-      parse_position(user_input)
-      true
+      position = parse_position(user_input)
+      position.length == 2
     rescue Error
       false
     end
