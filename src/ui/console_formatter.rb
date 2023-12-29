@@ -25,4 +25,8 @@ class ConsoleFormatter
 
     new_text + text
   end
+
+  def display_format_message(message)
+    puts("    - #{message}")
+  end
 end

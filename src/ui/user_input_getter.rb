@@ -1,6 +1,6 @@
 
 class UserInputGetter
-  def get_position(board)
+  def get_position(board, console_formatter)
     loop do
       print("Enter a coordinate (row,column) (e.g 3,3): ")
       user_input = gets.chomp
@@ -9,7 +9,7 @@ class UserInputGetter
         return parse_position(user_input)
       end
 
-      puts("Invalid Input")
+      console_formatter.display_format_message("Invalid Input")
     end
   end
 

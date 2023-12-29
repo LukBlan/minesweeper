@@ -15,7 +15,7 @@ class ConsoleInterface
   def game_loop
     until @board.game_over?
       display_grid
-      position = @user_input_getter.get_position
+      position = @user_input_getter.get_position(@board, @console_formatter)
       @board.reveal(position)
       system("clear")
     end
