@@ -1,39 +1,14 @@
 class ConsoleInterface
-  def initialize(board)
+  def initialize(board, user_input_getter)
     @board = board
+    @user_input_getter = user_input_getter
   end
 
   def init
     display_grid
-    position = get_position
+    position = @user_input_getter.get_position
     @board.reveal(position)
     display_grid
-  end
-
-  def get_position
-    loop do
-      puts("Enter a coordinate (row,column) (e.g 3,3)")
-      user_input = gets.chomp
-
-      if valid_position?(user_input)
-        return parse_position(user_input)
-      end
-
-      puts("Invalid Input")
-    end
-  end
-
-  def valid_position?(user_input)
-    begin
-      parse_position(user_input)
-      true
-    rescue Error
-      false
-    end
-  end
-
-  def parse_position(user_input)
-    user_input.split("").map(&:to_i)
   end
 
   def display_grid
@@ -49,6 +24,7 @@ class ConsoleInterface
 
         print "#{value} "
       end
+
       puts
     end
   end
