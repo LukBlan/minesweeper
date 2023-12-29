@@ -23,6 +23,6 @@ class UserInputGetter
   end
 
   def parse_position(user_input)
-    user_input.split("").map(&:to_i)
+    user_input.split(",").map(&:to_i)
   end
 end

@@ -5,9 +5,22 @@ class ConsoleInterface
   end
 
   def init
-    display_grid
-    position = @user_input_getter.get_position
-    @board.reveal(position)
+    game_loop
+    show_game_over
+  end
+
+  def game_loop
+    until @board.game_over?
+      system("clear")
+      display_grid
+      position = @user_input_getter.get_position
+      p position
+      @board.reveal(position)
+    end
+  end
+
+  def show_game_over
+    system("clear")
     display_grid
   end
 
