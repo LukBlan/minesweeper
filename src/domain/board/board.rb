@@ -13,6 +13,10 @@ class Board
     game_win? || game_lose?
   end
 
+  def move_not_already_made?(position)
+    !@already_reveal.include?(position)
+  end
+
   def game_win?
     bombs_flagged = @grid.map do |row|
       row.count { |tile| tile.flagged && tile.bomb }

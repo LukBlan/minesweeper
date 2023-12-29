@@ -1,11 +1,11 @@
 
 class UserInputGetter
-  def get_position
+  def get_position(board)
     loop do
       print("Enter a coordinate (row,column) (e.g 3,3): ")
       user_input = gets.chomp
 
-      if valid_position?(user_input)
+      if valid_position?(user_input, board)
         return parse_position(user_input)
       end
 
@@ -13,10 +13,10 @@ class UserInputGetter
     end
   end
 
-  def valid_position?(user_input)
+  def valid_position?(user_input, board)
     begin
       position = parse_position(user_input)
-      position.length == 2
+      position.length == 2 && board.move_not_already_made?(position)
     rescue Error
       false
     end
