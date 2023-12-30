@@ -17,7 +17,7 @@ class BoardPrinter
         index_string = "#{index + 1}"
       end
       print("#{index_string}|")
-      show_row(row)
+      show_row(row, board)
       print("|")
       puts
     end
@@ -25,12 +25,12 @@ class BoardPrinter
     show_dash_line(grid_length)
   end
 
-  def show_row(row)
+  def show_row(row, board)
     row.each_with_index do |tile, tile_index|
       value = @board_mark
 
       if tile.flagged
-        value = @board.get_flagged_mark
+        value = board.get_flagged_mark
       elsif tile.reveal
         value = tile.mark
       end
