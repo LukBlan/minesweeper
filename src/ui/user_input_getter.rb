@@ -35,13 +35,13 @@ class UserInputGetter
   end
 
   def map_position(position)
-    position.split(",").map(&:to_i)
+    position.split(",").map { |number| number.to_i - 1 }
   end
 
   def parse_user_input(user_input)
     user_input_split = user_input.split(" ")
     command = user_input_split[0]
-    position = user_input_split[1].split(",").map(&:to_i)
+    position = map_position(user_input_split[1])
     {"command" => command, "position" => position}
   end
 end
