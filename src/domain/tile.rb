@@ -12,4 +12,8 @@ class Tile
   def toggle_reveal
     @reveal = !@reveal
   end
+
+  def toggle_flag
+    @flagged = !@flagged
+  end
 end

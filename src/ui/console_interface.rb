@@ -1,29 +1,31 @@
 class ConsoleInterface
-  def initialize(board, user_input_getter, console_formatter)
+  def initialize(board, user_input_getter, console_formatter, board_printer)
     @board = board
     @user_input_getter = user_input_getter
     @console_formatter = console_formatter
+    @board_printer = board_printer
   end
 
-  def init
+  def init(commands_hash)
     print_message_between_dashes("Welcome to Minesweeper")
     puts
-    game_loop
+    game_loop(commands_hash)
     show_game_over
   end
 
-  def game_loop
+  def game_loop(commands_hash)
     until @board.game_over?
-      display_grid
-      position = @user_input_getter.get_position(@board, @console_formatter)
-      @board.reveal(position)
+      @board_printer.display_grid(@board)
+      user_input = @user_input_getter.get_user_input(@board, @console_formatter, commands_hash)
+      command = commands_hash[user_input["command"]]
+      command.call(@board, user_input["position"])
       system("clear")
     end
   end
 
   def show_game_over
     print_message_between_dashes("Game Over")
-    display_grid
+    @board_printer.display_grid(@board)
   end
 
   def print_message_between_dashes(message)
@@ -33,23 +35,5 @@ class ConsoleInterface
     puts(line)
     puts(text_in_middle)
     puts(line)
-  end
-
-  def display_grid
-    grid = @board.grid
-
-    grid.each do |row|
-      row.each do |tile|
-        value = "*"
-
-        if tile.reveal
-          value = tile.mark
-        end
-
-        print "#{value} "
-      end
-
-      puts
-    end
   end
 end

@@ -17,6 +17,11 @@ class Board
     !@already_reveal.include?(position)
   end
 
+  def flag_position(position)
+    tile = get_tile_from_position(position)
+    tile.toggle_flag
+  end
+
   def game_win?
     bombs_flagged = @grid.map do |row|
       row.count { |tile| tile.flagged && tile.bomb }
@@ -30,20 +35,19 @@ class Board
   end
 
   def reveal(position)
-    row, column = *position
-    tile = grid[row][column]
+    tile = get_tile_from_position(position)
     tile_mark = tile.mark
     tile.toggle_reveal
     @last_tile_selected = tile
-    @already_reveal << [row, column]
+    @already_reveal << position
 
     if tile_mark == @board_factory.empty_mark
-      reveal_adjacent_tiles(row, column)
+      reveal_adjacent_tiles(position)
     end
   end
 
-  def reveal_adjacent_tiles(row, column)
-    coordinates = @board_factory.get_coordinates_around_tile(row, column, grid.length)
+  def reveal_adjacent_tiles(position)
+    coordinates = @board_factory.get_coordinates_around_tile(position, grid.length)
     coordinates.each do |coordinate|
       if !@already_reveal.include?(coordinate)
          reveal(coordinate)
@@ -51,5 +55,13 @@ class Board
     end
   end
 
+  def get_flagged_mark
+    @board_factory.flag_mark
+  end
+
+  def get_tile_from_position(position)
+    row, column = *position
+    grid[row][column]
+  end
 
 end

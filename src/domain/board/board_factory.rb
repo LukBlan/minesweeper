@@ -2,7 +2,7 @@ require_relative './board'
 require_relative './../tile'
 
 class BoardFactory
-  attr_reader :empty_mark
+  attr_reader :empty_mark, :flag_mark
 
   def initialize(empty_mark, bomb_mark, flag_mark)
     @empty_mark = empty_mark
@@ -21,7 +21,8 @@ class BoardFactory
     grid.each_with_index do |row, row_index|
       row.each_with_index do |tile, column_index|
         unless tile.bomb
-          bombs_amount = get_bombs_amount(grid, row_index, column_index)
+          position = [row_index, column_index]
+          bombs_amount = get_bombs_amount(grid, position)
 
           if bombs_amount > 0
             tile.mark = bombs_amount.to_s
@@ -32,8 +33,8 @@ class BoardFactory
     end
   end
 
-  def get_bombs_amount(grid, row, column)
-    tiles_coordinates = get_coordinates_around_tile(row, column, grid.length)
+  def get_bombs_amount(grid, position)
+    tiles_coordinates = get_coordinates_around_tile(position,  grid.length)
     tiles = tiles_coordinates.map do |coordinate|
       row = coordinate[0]
       column = coordinate[1]
@@ -43,7 +44,8 @@ class BoardFactory
     tiles.count { |tile| tile.bomb }
   end
 
-  def get_coordinates_around_tile(row, column, grid_size)
+  def get_coordinates_around_tile(position, grid_size)
+    row, column = *position
     coordinates = []
     start_row = row - 1
     start_column = column - 1
