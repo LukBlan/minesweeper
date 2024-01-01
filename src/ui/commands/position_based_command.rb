@@ -16,11 +16,11 @@ class PositionBasedCommand
     position = parse_position(input_position)
     board_length = board.get_length
     row, column = *position
-    row >= 0 && row <= board_length && column >= 0 && column <= board_length
+    row >= 0 && row < board_length && column >= 0 && column < board_length
   end
 
   def parse_position(user_input_position)
-    user_input_position.split(",").map {|number| number.to_i}
+    user_input_position.split(",").map {|number| number.to_i - 1}
   end
 
   def map_user_input(user_input_hash, parameter)
