@@ -18,7 +18,7 @@ class ConsoleInterface
       @board_printer.display_grid(@board)
       user_input = @user_input_getter.get_user_input(@board, @console_formatter, commands_hash)
       command = commands_hash[user_input["command"]]
-      command.call(@board, user_input["position"])
+      command.execute(@board, user_input)
       system("clear")
     end
   end

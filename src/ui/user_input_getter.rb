@@ -6,12 +6,22 @@ class UserInputGetter
       print("Enter command #{keys} and a coordinate (row,column) (e.g #{keys[0]} 3,3): ")
       user_input = gets.chomp
 
-      if valid_user_input_format(user_input) && valid_command(user_input, keys) && valid_position?(user_input, board)
-        return parse_user_input(user_input)
+      if valid_user_input_format(user_input) &&
+        valid_command(user_input, keys) &&
+        valid_command_parameter?(user_input, command_hash, board)
+        return parse_user_input(user_input, command_hash)
       end
 
       console_formatter.display_format_message("Invalid Input")
     end
+  end
+
+  def valid_command_parameter?(user_input, command_hash, board)
+    user_input_split = user_input.split(" ")
+    command_name = user_input_split[0]
+    parameter = user_input_split[1]
+    command = command_hash[command_name]
+    command.valid_parameter?(parameter, board)
   end
 
   def valid_user_input_format(user_input)
@@ -23,25 +33,10 @@ class UserInputGetter
     keys.include?(command)
   end
 
-  def valid_position?(user_input, board)
-    user_input_position = user_input.split(" ")
-
-    begin
-      position = map_position(user_input_position[1])
-      position.length == 2 && board.move_not_already_made?(position)
-    rescue Error
-      false
-    end
-  end
-
-  def map_position(position)
-    position.split(",").map { |number| number.to_i - 1 }
-  end
-
-  def parse_user_input(user_input)
+  def parse_user_input(user_input, command_hash)
     user_input_split = user_input.split(" ")
-    command = user_input_split[0]
-    position = map_position(user_input_split[1])
-    {"command" => command, "position" => position}
+    command_name = user_input_split[0]
+    command = command_hash[command_name]
+    command.map_user_input({"command" => command_name}, user_input_split[1])
   end
 end

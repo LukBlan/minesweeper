@@ -64,4 +64,8 @@ class Board
     grid[row][column]
   end
 
+  def get_length
+    @grid.length
+  end
+
 end

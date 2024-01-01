@@ -2,7 +2,7 @@ require_relative "./ui/console_interface"
 require_relative './domain/board/board_factory'
 require_relative './ui/user_input_getter'
 require_relative './ui/console_formatter'
-require_relative './ui/commands_hash_factory'
+require_relative './ui/commands/commands_hash_factory'
 require_relative './ui/board_printer'
 
 # Domain
