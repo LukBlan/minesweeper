@@ -1,4 +1,6 @@
 class ConsoleInterface
+  attr_accessor :board
+
   def initialize(board, user_input_getter, console_formatter, board_printer)
     @board = board
     @user_input_getter = user_input_getter
@@ -17,6 +19,7 @@ class ConsoleInterface
     until @board.game_over?
       @board_printer.display_grid(@board)
       user_input = @user_input_getter.get_user_input(@board, @console_formatter, commands_hash)
+      user_input["game-controller"] = self
       command = commands_hash[user_input["command"]]
       command.execute(@board, user_input)
       system("clear")

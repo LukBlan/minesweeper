@@ -6,8 +6,7 @@ class FileBasedCommand
   end
 
   def execute(board, user_input_hash)
-    file_name =  user_input_hash["file_name"]
-    @proc.call(board, file_name, @file_path, @file_extension)
+    @proc.call(board, user_input_hash, @file_path, @file_extension)
   end
 
   def map_user_input(user_input_hash, parameter)
